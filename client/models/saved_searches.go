@@ -175,7 +175,6 @@ type SavedSearchObject struct {
 	RestartOnSearchPeerAdd                       bool    `json:"restart_on_searchpeer_add" url:"restart_on_searchpeer_add"`
 	RunOnStartup                                 bool    `json:"run_on_startup" url:"run_on_startup"`
 	ScheduleWindow                               string  `json:"schedule_window,omitempty" url:"schedule_window,omitempty"`
-	SchedulePriority                             string  `json:"schedule_priority,omitempty" url:"schedule_priority,omitempty"`
 	Search                                       string  `json:"search,omitempty" url:"search,omitempty"`
 	VSID                                         string  `json:"vsid,omitempty" url:"vsid,omitempty"`
 	WorkloadPool                                 string  `json:"workload_pool,omitempty" url:"workload_pool,omitempty"`

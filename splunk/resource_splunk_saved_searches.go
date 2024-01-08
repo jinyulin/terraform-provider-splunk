@@ -1079,12 +1079,6 @@ func savedSearches() *schema.Resource {
 					"Set to auto to let the scheduler determine the optimal window value automatically. " +
 					"Requires the edit_search_schedule_window capability to override auto. ",
 			},
-			"schedule_priority": {
-				Type:        schema.TypeString,
-				Optional:    true,
-				Computed:    true,
-				Description: "Raises the scheduling priority of the named search. Defaults to Default",
-			},
 			"search": {
 				Type:        schema.TypeString,
 				Required:    true,
@@ -1656,9 +1650,6 @@ func savedSearchesRead(d *schema.ResourceData, meta interface{}) error {
 	if err = d.Set("schedule_window", entry.Content.ScheduleWindow); err != nil {
 		return err
 	}
-	if err = d.Set("schedule_priority", entry.Content.SchedulePriority); err != nil {
-		return err
-	}
 	if err = d.Set("search", entry.Content.Search); err != nil {
 		return err
 	}
@@ -1883,7 +1874,6 @@ func getSavedSearchesConfig(d *schema.ResourceData) (savedSearchesObj *models.Sa
 		RestartOnSearchPeerAdd:                       d.Get("restart_on_searchpeer_add").(bool),
 		RunOnStartup:                                 d.Get("run_on_startup").(bool),
 		ScheduleWindow:                               d.Get("schedule_window").(string),
-		SchedulePriority:                             d.Get("schedule_priority").(string),
 		Search:                                       d.Get("search").(string),
 		VSID:                                         d.Get("vsid").(string),
 		WorkloadPool:                                 d.Get("workload_pool").(string),

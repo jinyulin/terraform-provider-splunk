@@ -130,7 +130,6 @@ resource "splunk_saved_searches" "new-search-01" {
   dispatch_latest_time      = "rt-0m"
   cron_schedule             = "*/15 * * * *"
   name                      = "new-search-01"
-  schedule_priority         = "default"
   search                    = "index=${splunk_indexes.user01-index.name} source=${splunk_inputs_http_event_collector.hec-token-01.name}"
 
   acl {

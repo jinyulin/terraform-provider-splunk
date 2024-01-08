@@ -127,11 +127,6 @@ func providerConfigure(d *schema.ResourceData) (interface{}, error) {
 		if err != nil {
 			return splunkdClient, err
 		}
-		// Login is required to get session key
-		err = splunkdClient.Login()
-		if err != nil {
-			return splunkdClient, err
-		}
 	}
 
 	provider.Client = splunkdClient
