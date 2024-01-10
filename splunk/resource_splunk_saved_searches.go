@@ -334,6 +334,12 @@ func savedSearches() *schema.Resource {
 				Description: "Indicates whether to use TLS (transport layer security) when communicating with the SMTP server (starttls)." +
 					"Defaults to false.",
 			},
+			"action_email_use_ns_subject": {
+				Type:        schema.TypeInt,
+				Optional:    true,
+				Computed:    true,
+				Description: "Specify whether to use nanemspace subject. [1|0]",
+			},
 			"action_email_width_sort_columns": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -1319,6 +1325,9 @@ func savedSearchesRead(d *schema.ResourceData, meta interface{}) error {
 	if err = d.Set("action_email_use_tls", entry.Content.ActionEmailUseTLS); err != nil {
 		return err
 	}
+	if err = d.Set("action_email_use_ns_subject", entry.Content.ActionEmailUseNSSubject); err != nil {
+		return err
+	}
 	if err = d.Set("action_email_width_sort_columns", entry.Content.ActionEmailWidthSortColumns); err != nil {
 		return err
 	}
@@ -1755,6 +1764,7 @@ func getSavedSearchesConfig(d *schema.ResourceData) (savedSearchesObj *models.Sa
 		ActionEmailTTL:                               d.Get("action_email_ttl").(string),
 		ActionEmailUseSSL:                            d.Get("action_email_use_ssl").(bool),
 		ActionEmailUseTLS:                            d.Get("action_email_use_tls").(bool),
+		ActionEmailUseNSSubject:                      d.Get("action_email_use_ns_subject").(int),
 		ActionEmailWidthSortColumns:                  d.Get("action_email_width_sort_columns").(bool),
 		ActionPagerdutyIntegrationURL:                d.Get("action_pagerduty_integration_url").(string),
 		ActionPagerdutyIntegrationURLOverride:        d.Get("action_pagerduty_integration_url_override").(string),

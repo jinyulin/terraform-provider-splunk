@@ -50,6 +50,7 @@ type SavedSearchObject struct {
 	ActionEmailTTL                               string  `json:"action.email.ttl,omitempty" url:"action.email.ttl,omitempty"`
 	ActionEmailUseSSL                            bool    `json:"action.email.use_ssl" url:"action.email.use_ssl"`
 	ActionEmailUseTLS                            bool    `json:"action.email.use_tls" url:"action.email.use_tls"`
+	ActionEmailUseNSSubject                      int     `json:"action.email.useNSSubject" url:"action.email.useNSSubject"`
 	ActionEmailWidthSortColumns                  bool    `json:"action.email.width_sort_columns" url:"action.email.width_sort_columns"`
 	ActionPagerdutyIntegrationURL                string  `json:"action.pagerduty.param.integration_url,omitempty" url:"action.pagerduty.param.integration_url"`
 	ActionPagerdutyIntegrationURLOverride        string  `json:"action.pagerduty.param.integration_url_override,omitempty" url:"action.pagerduty.param.integration_url_override"`
