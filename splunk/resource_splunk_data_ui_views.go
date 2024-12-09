@@ -4,8 +4,11 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"net/http"
 	"regexp"
+
+	"github.com/avast/retry-go/v4"
 
 	"github.com/splunk/terraform-provider-splunk/client/models"
 
@@ -50,7 +53,20 @@ func splunkDashboardsCreate(d *schema.ResourceData, meta interface{}) error {
 		return err
 	}
 
-	if err := (*provider.Client).UpdateAcl(aclObject.Owner, aclObject.App, name, aclObject, "data", "ui", "views"); err != nil {
+	// add retry as sometimes dashboard object is not yet propagated and acl endpoint return 404
+	err = retry.Do(
+		func() error {
+			err := (*provider.Client).UpdateAcl(aclObject.Owner, aclObject.App, name, aclObject, "data", "ui", "views")
+			if err != nil {
+				return err
+			}
+			return nil
+		}, retry.Attempts(10), retry.OnRetry(func(n uint, err error) {
+			log.Printf("#%d: %s. Retrying...\n", n, err)
+		}), retry.DelayType(retry.BackOffDelay),
+	)
+
+	if err != nil {
 		return err
 	}
 
@@ -64,7 +80,14 @@ func splunkDashboardsRead(d *schema.ResourceData, meta interface{}) error {
 
 	aclObject := getResourceDataViewACL(d)
 
-	resp, err := (*provider.Client).ReadDashboardObject(name, aclObject.Owner, aclObject.App)
+	readUser := "nobody"
+
+	if aclObject.Sharing == "user" {
+		// If we have a private dashboard we can only query it using the owner
+		readUser = aclObject.Owner
+	}
+
+	resp, err := (*provider.Client).ReadDashboardObject(name, readUser, aclObject.App)
 	if err != nil {
 		return err
 	}
@@ -101,11 +124,18 @@ func splunkDashboardsUpdate(d *schema.ResourceData, meta interface{}) error {
 	splunkDashboardsObj := getSplunkDashboardsConfig(d)
 	aclObject := getResourceDataViewACL(d)
 
-	if err := (*provider.Client).UpdateDashboardObject(aclObject.Owner, aclObject.App, name, splunkDashboardsObj); err != nil {
+	updateUser := "nobody"
+
+	if aclObject.Sharing == "user" {
+		// If we have a private dashboard we can only update it using the owner
+		updateUser = aclObject.Owner
+	}
+
+	if err := (*provider.Client).UpdateDashboardObject(updateUser, aclObject.App, name, splunkDashboardsObj); err != nil {
 		return err
 	}
 
-	if err := (*provider.Client).UpdateAcl(aclObject.Owner, aclObject.App, name, aclObject, "data", "ui", "views"); err != nil {
+	if err := (*provider.Client).UpdateAcl(updateUser, aclObject.App, name, aclObject, "data", "ui", "views"); err != nil {
 		return err
 	}
 

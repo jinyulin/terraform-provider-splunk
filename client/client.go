@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/http/cookiejar"
 	"net/url"
@@ -44,6 +43,7 @@ type Client struct {
 	host       string
 	httpClient *http.Client
 	userAgent  string
+	urlEncoded bool
 }
 
 // NewRequest creates a new HTTP Request and set proper header
@@ -61,6 +61,9 @@ func (c *Client) NewRequest(httpMethod, url string, body io.Reader) (*http.Reque
 	}
 	request.Header.Set("Accept", "application/json")
 	request.Header.Set("User-Agent", c.userAgent)
+	if c.urlEncoded {
+		request.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	}
 	return request, nil
 }
 
@@ -153,7 +156,7 @@ func (c *Client) DoRequest(method string, requestURL url.URL, body interface{}) 
 		return nil, fmt.Errorf("nil response for '%s' request", &requestURL)
 	}
 	if response.StatusCode != 200 && response.StatusCode != 201 {
-		body, err := ioutil.ReadAll(response.Body)
+		body, err := io.ReadAll(response.Body)
 		if err != nil {
 			return nil, err
 		}

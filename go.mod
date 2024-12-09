@@ -1,8 +1,9 @@
 module github.com/splunk/terraform-provider-splunk
 
-go 1.17
+go 1.20
 
 require (
+	github.com/avast/retry-go/v4 v4.6.0
 	github.com/google/go-querystring v1.0.0
 	github.com/hashicorp/terraform-plugin-sdk v1.15.0
 )
@@ -61,7 +62,7 @@ require (
 	github.com/zclconf/go-cty v1.2.1 // indirect
 	github.com/zclconf/go-cty-yaml v1.0.1 // indirect
 	go.opencensus.io v0.22.0 // indirect
-	golang.org/x/crypto v0.0.0-20190820162420-60c769a6c586 // indirect
+	golang.org/x/crypto v0.0.0-20200220183623-bac4c82f6975 // indirect
 	golang.org/x/net v0.0.0-20220114011407-0dd24b26b47d // indirect
 	golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45 // indirect
 	golang.org/x/sys v0.0.0-20210423082822-04245dca01da // indirect

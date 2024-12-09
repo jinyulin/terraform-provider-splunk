@@ -19,6 +19,9 @@ github.com/apparentlymart/go-textseg/textseg
 # github.com/armon/go-radix v1.0.0
 ## explicit
 github.com/armon/go-radix
+# github.com/avast/retry-go/v4 v4.6.0
+## explicit; go 1.18
+github.com/avast/retry-go/v4
 # github.com/aws/aws-sdk-go v1.25.3
 ## explicit
 github.com/aws/aws-sdk-go/aws
@@ -309,8 +312,8 @@ go.opencensus.io/trace
 go.opencensus.io/trace/internal
 go.opencensus.io/trace/propagation
 go.opencensus.io/trace/tracestate
-# golang.org/x/crypto v0.0.0-20190820162420-60c769a6c586
-## explicit
+# golang.org/x/crypto v0.0.0-20200220183623-bac4c82f6975
+## explicit; go 1.11
 golang.org/x/crypto/bcrypt
 golang.org/x/crypto/blowfish
 golang.org/x/crypto/cast5

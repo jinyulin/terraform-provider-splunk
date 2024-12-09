@@ -1,3 +1,25 @@
+## 1.4.29
+* Support ':' and '/' characters in configs_conf stanza name
+* Fix: Add retry mechanism to configs_conf acl endpoint
+
+## 1.4.28 
+* Support for lookup definition
+
+## 1.4.27
+* Support for lookup table files
+
+## 1.4.26
+* Fix: Add retry mechanism to dashboard's acl endpoint
+
+## 1.4.25
+* Support for customfields in Jira service desk params
+
+## 1.4.24
+* Fix goreleaser configuration
+
+## 1.4.23
+* Upgrade: golang.org/x/crypto to remediate CVE-2020-928
+
 ## 1.4.22
 * Fix: Encode name parameter of URI for Admin SAML Groups.
 
